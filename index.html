@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Book of Good Memories ♡</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ['Plus Jakarta Sans', 'sans-serif'],
+                hand: ['Caveat', 'cursive']
+            },
+            colors: {
+                cream: '#FFF9F6',
+                paper: '#FFFEFC',
+                blush: '#F8E5E5',
+                roseDust: '#D39A9B',
+                roseDeep: '#A96570',
+                taupe: '#8C746A',
+                charcoal: '#382C2C',
+                muted: '#857271'
+            }
+        }
+    }
+}
+</script>
+
+<style>
+- { box-sizing: border-box; }
+
+body {
+    background:
+        radial-gradient(circle at 5% 10%, #f8dfe3 0%, transparent 35%),
+        radial-gradient(circle at 95% 85%, #f3ded7 0%, transparent 35%),
+        linear-gradient(135deg, #fff9f6, #f9eeee, #fff8f3);
+    color: #382C2C;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+button { cursor: pointer; }
+
+/* Background decorations */
+
+.floating-orb {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(55px);
+    opacity: .35;
+    z-index: 0;
+    animation: floatSlow 12s ease-in-out infinite alternate;
+}
+
+@keyframes floatSlow {
+    from { transform: translate(0,0); }
+    to { transform: translate(25px,-25px); }
+}
+
+.heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1;
+    color: #d69a9f;
+    opacity: .4;
+    animation: heartFloat 8s ease-in-out infinite;
+}
+
+@keyframes heartFloat {
+    0%,100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-22px) rotate(10deg); }
+}
+
+/* Book */
+
+.book-stage {
+    perspective: 1800px;
+}
+
+.scrapbook-cover {
+    background: linear-gradient(145deg, #ebd2ce, #d9b7b5, #eedbd4);
+    padding: 12px;
+    border-radius: 25px;
+    border: 1px solid rgba(255,255,255,.8);
+    box-shadow:
+        0 30px 70px rgba(150,100,100,.2),
+        0 10px 25px rgba(100,65,65,.1),
+        inset 0 2px 3px rgba(255,255,255,.8);
+}
+
+.book-pages-wrapper {
+    position: relative;
+    background-color: #fffdfa;
+    background-image:
+        radial-gradient(rgba(201,138,134,.13) .7px, transparent .7px),
+        linear-gradient(90deg, rgba(245,220,215,.12), transparent 20%);
+    background-size: 22px 22px, 100% 100%;
+    border-radius: 17px;
+    box-shadow: inset 0 0 35px rgba(210,175,165,.18);
+    overflow: hidden;
+    transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .35s ease;
+    transform-style: preserve-3d;
+}
+
+@media(min-width:768px) {
+    .book-spine-shadow {
+        position:absolute;
+        top:0;
+        bottom:0;
+        left:50%;
+        width:44px;
+        transform:translateX(-50%);
+        background:linear-gradient(to right,
+            transparent,
+            rgba(115,82,78,.07),
+            rgba(82,56,53,.14),
+            rgba(115,82,78,.07),
+            transparent);
+        pointer-events:none;
+        z-index:20;
+    }
+
+    .book-spine-line {
+        position:absolute;
+        top:0;
+        bottom:0;
+        left:50%;
+        width:1px;
+        background:rgba(140,116,106,.2);
+        z-index:21;
+        pointer-events:none;
+    }
+}
+
+.flip-out-next {
+    opacity:0;
+    transform:rotateY(-7deg) translateX(-20px) scale(.985);
+}
+
+.flip-out-prev {
+    opacity:0;
+    transform:rotateY(7deg) translateX(20px) scale(.985);
+}
+
+.flip-in {
+    opacity:1;
+    transform:rotateY(0) translateX(0) scale(1);
+}
+
+/* Decorations */
+
+.washi-tape {
+    width:105px;
+    height:25px;
+    background:rgba(210,150,155,.35);
+    backdrop-filter:blur(3px);
+    transform:rotate(-2deg);
+    box-shadow:0 2px 5px rgba(0,0,0,.05);
+}
+
+.washi-tape-alt {
+    width:85px;
+    height:22px;
+    background:rgba(210,150,155,.3);
+    transform:rotate(2deg);
+}
+
+.decorative-heart {
+    color:#c98a91;
+    font-size:21px;
+    opacity:.65;
+}
+
+/* Photo frames */
+
+.scrapbook-photo-frame {
+    background:white;
+    padding:9px;
+    border-radius:13px;
+    border:1px solid #f0dcd7;
+    box-shadow:0 8px 22px rgba(160,105,105,.12);
+    transition:all .3s ease;
+    cursor:zoom-in;
+}
+
+.scrapbook-photo-frame:hover {
+    transform:translateY(-5px) rotate(-1deg) scale(1.015);
+    box-shadow:0 15px 30px rgba(168,100,96,.2);
+}
+
+.scrapbook-img-box {
+    aspect-ratio:4/3;
+    overflow:hidden;
+    border-radius:8px;
+    background:#f6efea;
+}
+
+/* Page edges */
+
+.paper-stack-edges {
+    height:9px;
+    margin:0 16px;
+    background:repeating-linear-gradient(
+        to bottom,
+        #fffdfa 0px,
+        #fffdfa 2px,
+        #ead8d3 2px,
+        #ead8d3 3px
+    );
+    border-radius:0 0 12px 12px;
+    box-shadow:0 6px 14px rgba(115,82,78,.12);
+}
+
+/* Buttons */
+
+.nav-button {
+    transition:all .25s ease;
+}
+
+.nav-button:hover:not(:disabled) {
+    transform:translateY(-2px);
+}
+
+#nextPageBtn {
+    background:linear-gradient(135deg,#bd777d,#a86470);
+    box-shadow:0 5px 15px rgba(168,100,112,.22);
+}
+
+#nextPageBtn:hover:not(:disabled) {
+    background:linear-gradient(135deg,#a86470,#955660);
+}
+
+#prevPageBtn {
+    background:rgba(255,255,255,.9);
+}
+
+#prevPageBtn:hover:not(:disabled) {
+    background:#fae9e9;
+}
+
+/* Photo modal */
+
+#photoModal {
+    transition:opacity .25s ease;
+}
+
+#photoModal.hidden-modal {
+    opacity:0;
+    pointer-events:none;
+}
+
+#photoModal.visible-modal {
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* Opening animation */
+
+.page-content {
+    animation:pageAppear .6s ease;
+}
+
+@keyframes pageAppear {
+    from {
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to {
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Mobile */
+
+@media(max-width:767px) {
+    .scrapbook-cover {
+        padding:8px;
+        border-radius:20px;
+    }
+
+    .book-pages-wrapper {
+        border-radius:14px;
+    }
+
+    .scrapbook-photo-frame {
+        padding:7px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    *,*::before,*::after {
+        animation-duration:.01ms!important;
+        transition-duration:.01ms!important;
+    }
+}
+</style>
+</head>
+
+<body class="antialiased flex flex-col py-5 sm:py-8 px-3 sm:px-6">
+
+<!-- Background decorations -->
+
+<div class="floating-orb w-72 h-72 bg-roseDust/30 top-6 left-6"></div>
+<div class="floating-orb w-80 h-80 bg-pink-200 bottom-10 right-6" style="animation-delay:-5s"></div>
+
+<div class="heart text-2xl top-24 left-[12%]">♡</div>
+<div class="heart text-xl top-1/3 right-[10%]" style="animation-delay:2s">♥</div>
+<div class="heart text-2xl bottom-24 left-[8%]" style="animation-delay:4s">♡</div>
+<div class="heart text-lg bottom-1/3 right-[15%]" style="animation-delay:1s">✧</div>
+
+<!-- Header -->
+
+<header class="relative z-10 max-w-5xl w-full mx-auto mb-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+
+    <div>
+        <span id="bookSubtitleTop" class="text-xs uppercase tracking-[.22em] text-roseDeep font-semibold block mb-1">
+            A Little Something Made For You
+        </span>
+
+        <h1 id="bookMainTitle" class="font-hand text-4xl sm:text-5xl font-bold text-charcoal">
+            A Collection of Little Memories ♡
+        </h1>
+
+        <p class="text-xs text-muted mt-1 tracking-wide">
+            Made with a little love, care, and gratitude
+        </p>
+    </div>
+
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur border border-[#ead8d3] shadow-sm text-xs text-muted">
+        <span class="text-roseDust">♥</span>
+        <span id="spreadIndicatorText">Page 1 • Opening Letter</span>
+    </div>
+</header>
+
+<!-- Main book -->
+
+<main class="relative z-10 book-stage max-w-5xl w-full mx-auto my-auto">
+
+    <div class="scrapbook-cover">
+
+        <div id="bookSpreadContainer"
+             class="book-pages-wrapper flip-in min-h-[520px] sm:min-h-[560px] flex flex-col justify-between">
+        </div>
+
+    </div>
+
+    <div class="paper-stack-edges"></div>
+
+</main>
+
+<!-- Navigation -->
+
+<nav aria-label="Scrapbook navigation"
+     class="relative z-10 max-w-5xl w-full mx-auto mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+
+    <button id="prevPageBtn"
+        class="nav-button w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-charcoal border border-[#ead8d3] shadow-sm disabled:opacity-40 disabled:pointer-events-none text-sm font-medium">
+
+        <span>←</span>
+        Previous Page
+    </button>
+
+    <div id="pageDotsContainer"
+         class="flex flex-wrap justify-center items-center gap-2 px-2">
+    </div>
+
+    <button id="nextPageBtn"
+        class="nav-button w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-white disabled:opacity-40 disabled:pointer-events-none text-sm font-medium">
+
+        <span id="nextBtnLabel">Open Photo Pages</span>
+        <span>→</span>
+    </button>
+
+</nav>
+
+<p class="relative z-10 text-center text-[11px] text-muted/80 mt-4">
+    ♡ Use the buttons, swipe, or arrow keys to turn pages. Click any photo to see it up close.
+</p>
+
+<!-- Closing footer -->
+
+<footer class="relative z-10 text-center mt-8 mb-3">
+    <p class="font-hand text-xl text-roseDeep">
+        A little book, filled with little moments. ♡
+    </p>
+</footer>
+
+<!-- Photo modal -->
+
+<div id="photoModal"
+     class="hidden-modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-charcoal/80 backdrop-blur-sm"
+     role="dialog"
+     aria-modal="true"
+     aria-label="Photo viewer">
+
+    <div class="relative w-full max-w-3xl bg-paper rounded-2xl shadow-2xl overflow-hidden border border-[#ead8d3] flex flex-col max-h-[92vh]">
+
+        <button id="closeModalBtn"
+            aria-label="Close photo viewer"
+            class="absolute top-3 right-3 z-30 w-9 h-9 rounded-full bg-white text-charcoal shadow-md flex items-center justify-center hover:bg-roseDeep hover:text-white transition">
+            ✕
+        </button>
+
+        <div class="p-5 sm:p-6 border-b border-[#ead8d3] pr-14">
+
+            <div class="flex items-center gap-3 mb-1">
+
+                <span id="modalDate" class="font-hand text-3xl text-roseDeep font-semibold">
+                    Memory
+                </span>
+
+                <span id="modalCounter" class="text-xs text-muted">
+                    1 / 14
+                </span>
+
+            </div>
+
+            <p id="modalMessage" class="text-sm text-charcoal/90 leading-relaxed"></p>
+
+        </div>
+
+        <div class="relative bg-[#f6efea] flex items-center justify-center flex-1 overflow-hidden min-h-[250px]">
+
+            <img id="modalImg"
+                 src=""
+                 alt="Memory photo"
+                 class="max-h-[65vh] w-auto object-contain">
+
+            <button id="prevPhotoBtn"
+                aria-label="Previous photo"
+                class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 shadow-md">
+                ❮
+            </button>
+
+            <button id="nextPhotoBtn"
+                aria-label="Next photo"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 shadow-md">
+                ❯
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Optional music -->
+
+<div id="musicWrapper" class="fixed bottom-4 right-4 z-40">
+
+    <audio id="bgMusic" loop preload="none"></audio>
+
+    <button id="musicToggleBtn"
+        class="flex items-center gap-2 px-4 py-3 rounded-full bg-white/95 text-charcoal shadow-lg border border-[#ead8d3] text-xs font-medium">
+
+        <span id="musicIcon" class="text-roseDeep">♫</span>
+        <span id="musicLabel">Play Music</span>
+
+    </button>
+</div>
+
+
+<script>
+
+/* ==========================================
+   1. OPENING LETTER CUSTOMIZATION
+========================================== */
+
+const OPENING_LETTER = {
+
+    browserTitle: "A Little Book of Good Memories ♡",
+
+    topSubtitle: "A Little Something Made For You",
+
+    mainHeader: "A Collection of Little Memories ♡",
+
+    letterBadge: "A Little Note Before You Begin",
+
+    title: "Some People Are Worth Remembering",
+
+    paragraphs: [
+        "Hi Miracle ♡,",
+        "Hello? How are you? Are you okay? I hope you're doing well. ♡",
+        "First of all, I'm sorry for suddenly ignoring you and not reaching out. I'm also sorry for not keeping my promise when you asked me not to avoid you, and I'm sorry if I was too clingy sometimes.",
+        "I know you've told me several times that you only see me as a friend and that you can't see me as more than that. But even knowing that, I still held on to the hope that maybe your feelings would change someday.",
+        "But honestly, I don't regret anything. I'm happy that I got to spend six months with you, and I don't regret any of it. I enjoyed playing games with you and talking to you. I really cherished those moments, and they meant a lot to me.",
+        "I still hope we can remain friends and play together again soon. I really miss you, and I won't deny that. I want to reach out, check on you, and ask how you've been, but I'm scared that my feelings might grow even deeper. That's why I chose to distance myself from you for a while, just so I could have some time to manage my feelings. Hopefully, someday, we can play together again like we used to.",
+        "But if you're ever uncomfortable with me, you can tell me. I'll understand, and I'll respect your feelings. Just be honest with me, okay?",
+        "I just want you to know that I don't hold any anger or resentment toward you. You don't have to blame yourself for what happened because I know it's not your fault that we don't feel the same way about each other. I understand that, and I don't want you to feel bad about it.",
+        "Whatever happens after this, I hope you never think that you were a burden to me. I'm glad I got to know you, and even though we haven't been talking as much these past few days, I hope you'll still remember all the good memories we shared.",
+        "And always remember that I'm still here for you. That will never change. If you ever need someone to talk to or someone to vent to, I'm always here for you. Hehe.",
+        "And if you ever want to talk to me about what happened between us or anything that's bothering you, don't be shy, okay? Just send me a postcard in Heartopia or message me here. I'm always willing to listen, so don't hesitate to reach out.",
+        "I'm just sad about what happened between us, but it's okay. We'll get through this eventually. I also told Bunso to keep you company whenever they're not busy, so you'll always have someone to play with.",
+        "I also hope I can still interact with the other members of your family like I used to. I hope things won't feel awkward between us someday. We don't have to rush anything. I just hope we can slowly get back to being friends when we're both comfortable.",
+        "Take care of yourself, okay? I genuinely hope you're doing well. Thank you for being part of my life for those six months. I'll always be grateful for all the memories we shared. ♡"
+    ],
+
+    signOff: "With a grateful heart,",
+
+    senderName: "Quien♡",
+
+    // Put your MP3 filename here to enable music.
+    // Example: "song.mp3"
+
+    musicFile: ""
+
+};
+
+
+/* ==========================================
+   2. MEMORY PHOTOS
+   Replace image URLs with your own pictures.
+========================================== */
+
+const photos = [
+
+    {
+        date: "Memory 01 • our first picture",
+
+        message: "ito ung araw na nagiging close na tayo at inuutusan mo na ako mag dilig bahay mo hahahaha.",
+
+        img: "images/photo1.png"
+    },
+
+    {
+        date: "Memory 02 • bully",
+
+        message: "kahit na palagi moko binubully dito sa hato okaay lng ikaw yan e HAHAHAHA.",
+
+        img: "images/photo2.png"
+    },
+
+    {
+        date: "Memory 03 • Hello sister",
+
+        message: "Isa din sa mga una natin picture hinding hindi koto makakalimutan hehe ganda mo din dito sister.",
+
+        img: "images/photo3.png"
+    },
+
+    {
+        date: "Memory 04 • Antok nako",
+
+        message: "feelings strong kahit antok na lalabanan ang ganda kasi ng katabi ko dito e.",
+
+        img: "images/photo4.png"
+    },
+
+    {
+        date: "Memory 05 • My birthday",
+
+        message: "di ako sure kung bday ko to but yah thankyouu sa pag punta kahit galing kapa sa work mo hehe thankyouusomuch.",
+
+        img: "images/photo5.png"
+    },
+
+    {
+        date: "Memory 06 • Happy Halloween",
+
+        message: "ito ung part na inaasar kita airport tapos bigla moko iniwan HAHAHAHA.",
+
+        img: "images/photo6.png"
+    },
+
+    {
+        date: "Memory 07 • the legal and kabet",
+
+        message: "muntik pa masipa sa fam dahil kala nila kabet ko si pamela HAHAHAHHA.",
+
+        img: "images/photo7.png"
+    },
+
+    {
+        date: "Memory 08 • princess",
+
+        message: "gandaa mo nmn dito kaso nawawala ung susi mo sa likod HAHAHAHHA.",
+
+        img: "images/photo8.png"
+    },
+
+    {
+        date: "Memory 09 • kyutiee",
+
+        message: "ang cute talaga ng picture natin dito hehe.",
+
+        img: "images/photo9.png"
+    },
+
+    {
+        date: "Memory 10 • Always Grateful",
+
+        message: "Walang na sayang sa bawat effort at oras na binigay ko, kasi naging masaya ako habang ginagawa ko 'yun para sa'yo.",
+
+        img: "images/photo10.png"
+    },
+
+    {
+        date: "Memory 11 • Galit yarn",
+
+        message: "mukhang lng ako galit dito pero hindi ako nangangagat and mabait ako ikaw ung hindi HAHAHAHHA Joke.",
+
+        img: "images/photo11.png"
+    },
+
+    {
+        date: "Memory 12 • Pretty so much",
+
+        message: "hayss kinikilig ka talaga sakin dito hehe nag bblush kapa talaga hehe",
+
+        img: "images/photo12.png"
+    },
+
+    {
+        date: "Memory 13 • Your Memory",
+        message: "our second date hehe hinding hindi koto makakalimutan na araw nato para sakin hanggang napapasaya kita nagiging masaya nadin ako at ayun lng mahalaga sakin basta mapasaya lng kita kahit sa anuman bagay na ikakasaya mo gagawin ko para sayo at masaya nadin ako don.",
+        img: "images/photo13.png"
+    },
+
+    {
+        date: "Memory 14 • Your Memory",
+        message: "Thank you so much for the time you spend with me and for all the effort you give. I hope this won't be the last time we play together. As friends, I hope we'll get to see each other again in-game and have more moments playing together. ♡.",
+        img: "images/photo14.png"
+    }
+
+];
+
+
+/* ==========================================
+   3. FLIPBOOK ENGINE
+========================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    document.title = OPENING_LETTER.browserTitle;
+
+    document.getElementById("bookSubtitleTop").textContent =
+        OPENING_LETTER.topSubtitle;
+
+    document.getElementById("bookMainTitle").textContent =
+        OPENING_LETTER.mainHeader;
+
+
+    const spreads = [{ type: "letter" }];
+
+    for (let i = 0; i < photos.length; i += 2) {
+
+        spreads.push({
+
+            type: "photos",
+
+            leftIndex: i,
+
+            rightIndex: i + 1 < photos.length ? i + 1 : null
+
+        });
+
+    }
+
+
+    let currentSpread = 0;
+    let isAnimating = false;
+
+    const container = document.getElementById("bookSpreadContainer");
+
+    const indicator = document.getElementById("spreadIndicatorText");
+
+    const prevBtn = document.getElementById("prevPageBtn");
+
+    const nextBtn = document.getElementById("nextPageBtn");
+
+    const nextLabel = document.getElementById("nextBtnLabel");
+
+    const dotsContainer = document.getElementById("pageDotsContainer");
+
+
+    /* Page dots */
+
+    function renderDots() {
+
+        dotsContainer.innerHTML = "";
+
+        spreads.forEach((spread, index) => {
+
+            const dot = document.createElement("button");
+
+            dot.type = "button";
+
+            dot.setAttribute(
+                "aria-label",
+                index === 0
+                    ? "Opening Letter"
+                    : `Page Spread ${index + 1}`
+            );
+
+            dot.className = index === currentSpread
+
+                ? "h-2.5 w-7 rounded-full bg-roseDeep shadow-sm transition-all"
+
+                : "h-2.5 w-2.5 rounded-full bg-roseDust/40 hover:bg-roseDust transition-all";
+
+            dot.addEventListener("click", () => {
+
+                goToSpread(
+                    index,
+                    index > currentSpread ? "next" : "prev"
+                );
+
+            });
+
+            dotsContainer.appendChild(dot);
+
+        });
+
+    }
+
+
+    /* Build memory page */
+
+    function buildMemoryPage(index, side) {
+
+        if (index === null || !photos[index]) {
+
+            return `
+                <div class="page-content p-8 flex flex-col items-center justify-center text-center min-h-[420px]">
+
+                    <div class="text-5xl text-roseDust mb-5">♡</div>
+
+                    <h3 class="font-hand text-4xl text-roseDeep mb-3">
+                        End of This Chapter
+                    </h3>
+
+                    <p class="text-sm text-muted max-w-xs leading-relaxed">
+                        Thank you for taking the time to flip through these memories.
+                        Wishing you genuine peace and happiness always.
+                    </p>
+
+                    <div class="mt-6 text-2xl text-roseDust">✿ ♡ ✿</div>
+
+                </div>
+            `;
+
+        }
+
+
+        const item = photos[index];
+
+        const pageNumber = index + 2;
+
+        return `
+
+            <div class="page-content p-6 sm:p-8 md:p-10 flex flex-col justify-between h-full min-h-[520px]">
+
+                <div>
+
+                    <div class="flex items-center justify-between mb-5">
+
+                        <span class="text-[10px] uppercase tracking-widest text-muted font-medium">
+                            Page ${pageNumber} • ${side}
+                        </span>
+
+                        <span class="decorative-heart">♡</span>
+
+                    </div>
+
+                    <div class="washi-tape-alt rounded-sm ml-auto mb-4 hidden sm:block"></div>
+
+                    <h3 class="font-hand text-3xl sm:text-4xl text-roseDeep font-bold mb-2 leading-tight">
+                        ${escapeHTML(item.date)}
+                    </h3>
+
+                    <p class="text-sm sm:text-[15px] text-charcoal/90 leading-relaxed whitespace-pre-line">
+                        ${escapeHTML(item.message)}
+                    </p>
+
+                </div>
+
+                <div class="mt-6">
+
+                    <div
+                        class="scrapbook-photo-frame group"
+                        data-photo-index="${index}"
+                        role="button"
+                        tabindex="0"
+                        aria-label="Zoom into ${escapeHTML(item.date)}"
+                    >
+
+                        <div class="scrapbook-img-box relative">
+
+                            <img
+                                src="${escapeHTML(item.img)}"
+                                alt="${escapeHTML(item.date)}"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                onerror="this.onerror=null;this.src='https://placehold.co/800x600/F7E6E4/2E2726?text=Add+Your+Photo';"
+                            >
+
+                            <div class="absolute bottom-2 right-2 bg-white/90 text-roseDeep px-2 py-1 rounded-lg text-xs opacity-0 group-hover:opacity-100 transition">
+                                ♡ Zoom
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <p class="text-center font-hand text-xl text-roseDeep mt-3">
+                        a little moment to remember ♡
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* HTML escape helper */
+
+    function escapeHTML(value) {
+
+        return String(value).replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+
+    }
+
+
+    /* Opening letter */
+
+    function renderLetter() {
+
+        const paragraphs = OPENING_LETTER.paragraphs
+            .map(paragraph => `<p>${escapeHTML(paragraph)}</p>`)
+            .join("");
+
+        container.innerHTML = `
+
+            <div class="page-content relative p-7 sm:p-12 md:p-14 max-w-3xl mx-auto w-full flex flex-col justify-between min-h-[520px] sm:min-h-[560px]">
+
+                <div>
+
+                    <div class="washi-tape mx-auto mb-6 rounded-sm"></div>
+
+                    <div class="text-center mb-7">
+
+                        <div class="text-2xl text-roseDust mb-2">
+                            ✿ ♡ ✿
+                        </div>
+
+                        <span class="inline-block px-4 py-1.5 rounded-full bg-blush/70 text-roseDeep text-xs font-semibold tracking-wide mb-3">
+                            ${escapeHTML(OPENING_LETTER.letterBadge)}
+                        </span>
+
+                        <h2 class="font-hand text-4xl sm:text-5xl font-bold text-charcoal leading-tight">
+                            ${escapeHTML(OPENING_LETTER.title)}
+                        </h2>
+
+                        <div class="text-roseDust mt-3">────── ♡ ──────</div>
+
+                    </div>
+
+                    <div class="space-y-4 text-sm sm:text-[15px] leading-[1.9] text-charcoal/90">
+
+                        ${paragraphs}
+
+                    </div>
+
+                </div>
+
+                <div class="mt-8 pt-5 border-t border-[#ead8d3] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+                    <div>
+
+                        <p class="text-xs sm:text-sm text-muted">
+                            ${escapeHTML(OPENING_LETTER.signOff)}
+                        </p>
+
+                        <p class="font-hand text-3xl text-roseDeep font-bold mt-1">
+                            ${escapeHTML(OPENING_LETTER.senderName)}
+                        </p>
+
+                    </div>
+
+                    <button
+                        id="startFlippingBtn"
+                        class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-blush text-roseDeep font-semibold text-sm hover:bg-roseDeep hover:text-white transition-all shadow-sm"
+                    >
+                        Open Photo Pages ♡ →
+                    </button>
+
+                </div>
+
+                <div class="absolute top-5 right-5 text-2xl text-roseDust/60">
+                    ♡
+                </div>
+
+                <div class="absolute bottom-5 right-6 text-xl text-roseDust/50">
+                    ✿
+                </div>
+
+            </div>
+
+        `;
+
+
+        document.getElementById("startFlippingBtn")
+            .addEventListener("click", () => {
+                goToSpread(1, "next");
+            });
+
+    }
+
+
+    /* Render spread */
+
+    function renderSpread() {
+
+        const spread = spreads[currentSpread];
+
+        if (spread.type === "letter") {
+
+            renderLetter();
+
+            indicator.textContent =
+                `Page 1 • Opening Letter`;
+
+        } else {
+
+            const leftPage = spread.leftIndex + 2;
+
+            const rightPage = spread.rightIndex !== null
+                ? spread.rightIndex + 2
+                : null;
+
+            container.innerHTML = `
+
+                <div class="book-spine-shadow"></div>
+
+                <div class="book-spine-line"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 divide-[#ead8d3]/70 min-h-[520px] sm:min-h-[560px]">
+
+                    <div class="relative">
+
+                        ${buildMemoryPage(spread.leftIndex, "Left Page")}
+
+                    </div>
+
+                    <div class="relative">
+
+                        ${buildMemoryPage(spread.rightIndex, "Right Page")}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            container.querySelectorAll(".scrapbook-photo-frame")
+                .forEach(frame => {
+
+                    const index = Number(
+                        frame.getAttribute("data-photo-index")
+                    );
+
+                    frame.addEventListener("click", () => openModal(index));
+
+                    frame.addEventListener("keydown", event => {
+
+                        if (event.key === "Enter" || event.key === " ") {
+
+                            event.preventDefault();
+
+                            openModal(index);
+
+                        }
+
+                    });
+
+                });
+
+
+            indicator.textContent = rightPage
+                ? `Pages ${leftPage}–${rightPage}`
+                : `Page ${leftPage}`;
+
+        }
+
+
+        prevBtn.disabled = currentSpread === 0;
+
+        nextBtn.disabled = currentSpread === spreads.length - 1;
+
+        nextLabel.textContent =
+            currentSpread === 0
+                ? "Open Photo Pages"
+                : currentSpread === spreads.length - 1
+                    ? "Last Page"
+                    : "Next Page";
+
+
+        renderDots();
+
+    }
+
+
+    /* Page transition */
+
+    function goToSpread(target, direction = "next") {
+
+        if (
+            isAnimating ||
+            target < 0 ||
+            target >= spreads.length ||
+            target === currentSpread
+        ) return;
+
+        isAnimating = true;
+
+        const outClass = direction === "next"
+            ? "flip-out-next"
+            : "flip-out-prev";
+
+        container.classList.remove("flip-in");
+
+        container.classList.add(outClass);
+
+
+        setTimeout(() => {
+
+            currentSpread = target;
+
+            renderSpread();
+
+            container.classList.remove(outClass);
+
+            container.classList.add("flip-in");
+
+            if (window.innerWidth < 768) {
+
+                container.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest"
+                });
+
+            }
+
+            setTimeout(() => {
+                isAnimating = false;
+            }, 300);
+
+        }, 240);
+
+    }
+
+
+    /* Navigation buttons */
+
+    prevBtn.addEventListener("click", () => {
+
+        goToSpread(currentSpread - 1, "prev");
+
+    });
+
+    nextBtn.addEventListener("click", () => {
+
+        goToSpread(currentSpread + 1, "next");
+
+    });
+
+
+    /* Mobile swipe */
+
+    let touchStartX = 0;
+
+    container.addEventListener("touchstart", event => {
+
+        touchStartX = event.changedTouches[0].screenX;
+
+    }, { passive: true });
+
+
+    container.addEventListener("touchend", event => {
+
+        const touchEndX = event.changedTouches[0].screenX;
+
+        const difference = touchStartX - touchEndX;
+
+        if (Math.abs(difference) > 55) {
+
+            if (difference > 0) {
+
+                goToSpread(currentSpread + 1, "next");
+
+            } else {
+
+                goToSpread(currentSpread - 1, "prev");
+
+            }
+
+        }
+
+    }, { passive: true });
+
+
+    /* ==========================================
+       4. PHOTO VIEWER
+    ========================================== */
+
+    let modalIndex = 0;
+
+    const modal = document.getElementById("photoModal");
+
+    const modalImg = document.getElementById("modalImg");
+
+    const modalDate = document.getElementById("modalDate");
+
+    const modalCounter = document.getElementById("modalCounter");
+
+    const modalMessage = document.getElementById("modalMessage");
+
+
+    function updateModal(index) {
+
+        if (photos.length === 0) return;
+
+        modalIndex = (index + photos.length) % photos.length;
+
+        const item = photos[modalIndex];
+
+        modalImg.onerror = function() {
+
+            this.onerror = null;
+
+            this.src = "https://placehold.co/800x600/F7E6E4/2E2726?text=Add+Your+Photo";
+
+        };
+
+        modalImg.src = item.img;
+
+        modalDate.textContent = item.date;
+
+        modalCounter.textContent =
+            `Photo ${modalIndex + 1} / ${photos.length}`;
+
+        modalMessage.textContent = item.message;
+
+    }
+
+
+    function openModal(index) {
+
+        updateModal(index);
+
+        modal.classList.remove("hidden-modal");
+
+        modal.classList.add("visible-modal");
+
+        document.body.style.overflow = "hidden";
+
+        document.getElementById("closeModalBtn").focus();
+
+    }
+
+
+    function closeModal() {
+
+        modal.classList.remove("visible-modal");
+
+        modal.classList.add("hidden-modal");
+
+        document.body.style.overflow = "";
+
+    }
+
+
+    document.getElementById("closeModalBtn")
+        .addEventListener("click", closeModal);
+
+
+    document.getElementById("prevPhotoBtn")
+        .addEventListener("click", event => {
+
+            event.stopPropagation();
+
+            updateModal(modalIndex - 1);
+
+        });
+
+
+    document.getElementById("nextPhotoBtn")
+        .addEventListener("click", event => {
+
+            event.stopPropagation();
+
+            updateModal(modalIndex + 1);
+
+        });
+
+
+    modal.addEventListener("click", event => {
+
+        if (event.target === modal) closeModal();
+
+    });
+
+
+    /* ==========================================
+       5. KEYBOARD NAVIGATION
+    ========================================== */
+
+    document.addEventListener("keydown", event => {
+
+        if (modal.classList.contains("visible-modal")) {
+
+            if (event.key === "Escape") closeModal();
+
+            if (event.key === "ArrowLeft") {
+                updateModal(modalIndex - 1);
+            }
+
+            if (event.key === "ArrowRight") {
+                updateModal(modalIndex + 1);
+            }
+
+            return;
+
+        }
+
+        if (event.key === "ArrowLeft") {
+
+            goToSpread(currentSpread - 1, "prev");
+
+        } else if (event.key === "ArrowRight") {
+
+            goToSpread(currentSpread + 1, "next");
+
+        }
+
+    });
+
+
+    /* ==========================================
+       6. OPTIONAL BACKGROUND MUSIC
+    ========================================== */
+
+    const musicWrapper = document.getElementById("musicWrapper");
+
+    const bgMusic = document.getElementById("bgMusic");
+
+    const musicBtn = document.getElementById("musicToggleBtn");
+
+    const musicLabel = document.getElementById("musicLabel");
+
+    const musicIcon = document.getElementById("musicIcon");
+
+
+    if (OPENING_LETTER.musicFile.trim() !== "") {
+
+        bgMusic.src = OPENING_LETTER.musicFile.trim();
+
+        let isPlaying = false;
+
+        musicBtn.addEventListener("click", async () => {
+
+            if (isPlaying) {
+
+                bgMusic.pause();
+
+                isPlaying = false;
+
+                musicLabel.textContent = "Play Music";
+
+                musicIcon.textContent = "♫";
+
+            } else {
+
+                try {
+
+                    await bgMusic.play();
+
+                    isPlaying = true;
+
+                    musicLabel.textContent = "Pause Music";
+
+                    musicIcon.textContent = "♪";
+
+                } catch (error) {
+
+                    musicLabel.textContent = "Music unavailable";
+
+                }
+
+            }
+
+        });
+
+        bgMusic.addEventListener("ended", () => {
+
+            isPlaying = false;
+
+            musicLabel.textContent = "Play Music";
+
+        });
+
+    } else {
+
+        musicWrapper.style.display = "none";
+
+    }
+
+
+    /* ==========================================
+       7. INITIALIZE
+    ========================================== */
+
+    renderSpread();
+
+});
+
+</script>
+
+</body>
+</html>
